@@ -1,0 +1,1 @@
+@python setup_wizard.pyw || @python setup_wizard.py || pause
