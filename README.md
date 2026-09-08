@@ -6,6 +6,8 @@ Features a 320x240 color IPS dashboard that cycles between:
 1. **Real-time Telemetry Dashboard**: Instantaneous solar output (kW), today's total production (kWh) and accrued feed-in earnings, lifetime generation (MWh) and valuation, live DC string voltages (Bank A & Bank B), and generation state (ON/OFF).
 2. **Solar Trend Graph**: A daily production curve mapped dynamically between calculated local sunrise and sunset times.
 
+There will be an eventual future development that adds in battery storage info on a third page, and at some point I will update the code in the "System Info" section which shows Bank A/Bank B. I only have two banks running on PV2 and PV3 through my inverter so if yours varies, reach out and I can modify it.
+
 ---
 
 ## Hardware Requirements
@@ -14,14 +16,14 @@ Features a 320x240 color IPS dashboard that cycles between:
 | :--- | :--- |
 | **Microcontroller** | **Raspberry Pi Pico 2 W** or **Pico 2 WH** (also backwards compatible with Pico W) |
 | **Display** | [Pimoroni Pico Display Pack 2.0" (320x240 IPS ST7789)](https://shop.pimoroni.com/products/pico-display-pack-2-0) |
-| **Enclosure** | 3D-printed desktop enclosure/stand designed for the Pico + Display Pack 2.0 |
+| **Enclosure** | [3D-printed desktop enclosure/stand designed for the Pico + Display Pack 2.0](https://www.printables.com/model/473270-pimoroni-pico-display-pack-20-case)  
 | **Power** | 5V USB power adapter and cable |
 
 ---
 
 ## Supported Inverters
 
-This project communicates directly with GoodWe residential inverters over **Modbus TCP** on port `502` (Unit ID `247` / `0xF7`). It reads registers `0x0200` (DC string voltages) and `0x0220` (System & running data).
+This project communicates directly with GoodWe residential solar inverters over **Modbus TCP** on port `502` (Unit ID `247` / `0xF7`). It reads registers `0x0200` (DC string voltages) and `0x0220` (System & running data).
 
 Compatible with GoodWe string and hybrid inverters equipped with a Wi-Fi or LAN communication dongle:
 * **GoodWe DNS Series** (e.g., GW3000D-NS, GW5000D-NS)
@@ -34,10 +36,10 @@ Compatible with GoodWe string and hybrid inverters equipped with a Wi-Fi or LAN 
 
 ## Network Prerequisites
 
-1. **2.4 GHz Wi-Fi Subnet**:
+1. **2.4 GHz Wi-Fi Sub-network**:
    * Both the Raspberry Pi Pico and the GoodWe Wi-Fi dongle operate exclusively on **2.4 GHz (802.11 b/g/n)** networks. Ensure both devices are connected to the same local network subnet.
 2. **Static / Reserved IP for the Inverter**:
-   * Assign a fixed/reserved IP address to your GoodWe inverter in your home router settings (e.g., `192.168.1.35`) so the Pico does not lose connection when DHCP leases renew.
+   * Assign a fixed/reserved IP address to your GoodWe inverter in your home router settings so the Pico does not lose connection when DHCP leases renew.
 
 ---
 
@@ -45,7 +47,7 @@ Compatible with GoodWe string and hybrid inverters equipped with a Wi-Fi or LAN 
 
 ### 1. Flash MicroPython Firmware
 You must use Pimoroni's MicroPython firmware build, which includes the `picographics` drivers:
-1. Download the latest `.uf2` release from [Pimoroni MicroPython Releases](https://github.com/pimoroni/pimoroni-pico/releases) (look for `pimoroni-picow-v...uf2`).
+1. Find the included Micropython firmware (newer versions seem to cause issues so I have kept the last working version inside the folder).
 2. Hold down the **BOOTSEL** button on your Pico while plugging it into your computer via USB.
 3. Drag and drop the downloaded `.uf2` file onto the mounted `RPI-RP2` drive. The Pico will reboot automatically.
 
@@ -53,10 +55,10 @@ You must use Pimoroni's MicroPython firmware build, which includes the `picograp
 
 ### 2. Generate Configuration (`config.py`)
 
-We provide a graphical setup wizard to configure your network, location, and tariffs without editing code manually.
+A basic text-input setup wizard to configure your network, location, and tariffs without editing code manually.
 
 #### Launching the Wizard:
-* **Windows**: Double-click `run_setup.bat` (or double-click `setup_wizard.pyw`).
+* **Windows**: Double-click `run_setup.bat` (or double-click `setup_wizard.pyw`). If you need to, install Python.
 * **macOS / Linux**: Double-click `run_setup.command` (or run `python3 setup_wizard.pyw`).
 
 #### Configuration Fields:
@@ -76,14 +78,13 @@ Click **Generate config.py**. The file will be created in your folder.
 Using an IDE like [Thonny](https://thonny.org/) or [mpremote](https://docs.micropython.org/en/latest/reference/mpremote.html):
 1. Connect your Pico to your computer.
 2. Transfer both **`config.py`** and **`main.py`** to the root directory (`/`) of your Pico.
-3. Reset or power cycle the device.
+3. Reset or power cycle the device, or test run on Thonny prior to installing.
 
 ---
 
 ## Enclosure & 3D Printing
 
-You can 3D print any standard enclosure designed for the Raspberry Pi Pico + Pimoroni Pico Display Pack 2.0". A desktop stand tilted at 30° to 45° provides optimal visibility for daytime monitoring.
-
+3D print the linked enclosure above, throw it together. I haven't allowed for vertical alignment if you want to use a different case. This is because the graph looks way cleaner on the landscape orientation.
 ---
 
 ## Troubleshooting
