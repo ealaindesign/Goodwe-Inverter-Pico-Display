@@ -41,15 +41,17 @@ Compatible with GoodWe string and hybrid inverters equipped with a Wi-Fi or LAN 
 
 ---
 
-Getting Started
+## Getting Started
 
-1. Flash MicroPython Firmware
+### 1. Flash MicroPython Firmware
 You must use Pimoroni's MicroPython firmware build, which includes the `picographics` drivers:
-1. Pull the attached firmware build from the zip (filename rpi_pico2_w-v1.26.1-micropython.uf2)
+1. Download the latest `.uf2` release from [Pimoroni MicroPython Releases](https://github.com/pimoroni/pimoroni-pico/releases) (look for `pimoroni-picow-v...uf2`).
 2. Hold down the **BOOTSEL** button on your Pico while plugging it into your computer via USB.
 3. Drag and drop the downloaded `.uf2` file onto the mounted `RPI-RP2` drive. The Pico will reboot automatically.
 
-# 2. Generate Configuration (`config.py`)
+---
+
+### 2. Generate Configuration (`config.py`)
 
 We provide a graphical setup wizard to configure your network, location, and tariffs without editing code manually.
 
@@ -69,7 +71,7 @@ Click **Generate config.py**. The file will be created in your folder.
 
 ---
 
-3. Deploy to the Pico
+### 3. Deploy to the Pico
 
 Using an IDE like [Thonny](https://thonny.org/) or [mpremote](https://docs.micropython.org/en/latest/reference/mpremote.html):
 1. Connect your Pico to your computer.
